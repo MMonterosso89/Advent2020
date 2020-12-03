@@ -1,0 +1,96 @@
+---
+title: "Advent of Code 2020"
+author: "Matthew Monterosso"
+date: "12/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Day 1: Report Repair
+
+
+```{r}
+
+#First get Data from web
+library(tidyverse)
+library(rvest)
+library(xml2)
+
+
+df <- read.delim("C:\\Users\\Matth\\Desktop\\SelfTeach\\Advent of Code 2020\\inputD1.txt", header = FALSE)
+
+
+
+##not sure why cant dl from web - getting 400 Bad Req Error
+
+# download.file(url, "CodeAdventDay1.html", quiet = TRUE)
+# 
+# df <- read_html("https://adventofcode.com/2020/day/1/input") 
+
+
+#this is likely not a scalable solution, but will work here
+#also the expand does by itself as combo but we could filter this out if needed but there is no 1001 so wont be an issue
+
+
+
+df_expand <- expand.grid(df$V1,df$V1) %>%
+  mutate(ExpenseSum = Var1 + Var2) %>%
+  filter(ExpenseSum == 2020) %>%
+  mutate(Answer = Var1 * Var2)
+  
+
+##Day 1 Part Two
+
+
+#yeah this wont scale - 8MM points still doable on there's gotta be better way
+
+df_expand <- expand.grid(df$V1,df$V1)
+
+df_super_expand <- expand.grid(df$V1,df$V1,df$V1) %>%
+  mutate(ExpenseSum = Var1 + Var2 + Var3) %>%
+  filter(ExpenseSum == 2020) %>%
+  mutate(Answer = Var1 * Var2 * Var3)
+
+
+
+```
+
+## Day 2: Password Philosophy WIP
+
+
+```{r}
+
+df2 <- read.delim("C:\\Users\\Matth\\Desktop\\SelfTeach\\Advent of Code 2020\\inputD2.txt", header = FALSE, sep = " ") %>%
+  mutate(V2 = substr(V2,1,1),
+         MinNum = str_extract(V1,"^\\d{1,2}"),
+          MaxNum = str_extract(V1,"\\d{1,2}$"),
+         valid = ifelse(between(str_count(V3, V2), MinNum, MaxNum),1, 0))
+
+sum(df2$valid)
+
+
+#Day 2 Part Two
+
+
+lapply(str_split(df2$V3,""), str_which(pattern = "l"))
+
+
+locs <- as.matrix(nrow = 1, ncol = max(nchar(str_split(df2$V3[1],""))))
+
+for (i in 1:1000){
+
+locs <-  rbind(locs, paste(stringr::str_which(unlist(str_split(df2$V3[i],"")),df2$V2[i])))
+  
+}
+
+
+test <- paste(stringr::str_which(unlist(str_split(df2$V3[1],"")),df2$V2[1]))
+
+stringr::str_which(unlist(str_split(df2$V3,"")),df2$V2)
+
+
+
+```
