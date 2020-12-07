@@ -273,12 +273,12 @@ df4 <- read_delim("C:\\Users\\Matth\\Desktop\\SelfTeach\\Advent of Code 2020\\in
   filter(between(byr, 1920,2002)) %>%
   filter(between(iyr,2010,2020)) %>%
   filter(between(eyr,2020,2030)) %>%
-  filter(str_detect(hgt, "\\d+cm$|in$")) %>%
-  filter_if()
+  #filter(str_detect(hgt, "\\d+cm$|in$")) %>%
+  filter(between(as.numeric(str_extract(str_extract(hgt, "\\d+in$"), "\\d+")), 59, 76) | between(as.numeric(str_extract(str_extract(hgt, "\\d+cm$"), "\\d+")), 150, 193))
   
 
   str_extract(df4$hgt, "\\d+cm$")
-
+  between(as.numeric(str_extract(str_extract(df4$hgt, "\\d+in$"), "\\d+")),59,76)
 
 
 
